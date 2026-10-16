@@ -1,0 +1,275 @@
+---
+import { getEmDashEntry, getSiteSettings } from "emdash";
+import Base from "../layouts/Base.astro";
+import { resolveStarterSiteIdentity } from "../utils/site-identity";
+
+const { entry: resume, cacheHint } = await getEmDashEntry("resume", "cody-boyd");
+const { siteTitle, siteTagline } = resolveStarterSiteIdentity(await getSiteSettings());
+if (Astro.cache?.enabled && cacheHint) Astro.cache.set(cacheHint);
+
+const d = resume?.data;
+const roles = (d?.typewriter || "")
+	.split("|")
+	.map((r) => r.trim())
+	.filter(Boolean);
+const stats = d?.stats ?? [];
+const experiences = d?.experiences ?? [];
+const skillGroups = d?.skill_groups ?? [];
+const projects = d?.projects ?? [];
+---
+
+<Base title={siteTitle} description={siteTagline} content={resume ? { collection: "resume", id: resume.id, slug: resume.id } : undefined}>
+	{
+		!d ? (
+			<section class="section-tight">
+				<div class="wrap">
+					<div class="terminal-window">
+						<div class="terminal-titlebar">
+							<div class="terminal-dots"><span></span><span></span><span></span></div>
+							<span>setup --pending</span>
+						</div>
+						<div class="terminal-body">
+							<p class="mono text-dim">Seed not applied yet — start the dev server once and reload, then log in at <a href="/_emdash/admin">/_emdash/admin</a> to complete setup.</p>
+						</div>
+					</div>
+				</div>
+			</section>
+		) : (
+			<>
+				{/* ---------- Hero ---------- */}
+				<section class="section-tight" style="padding-top:56px;">
+					<div class="wrap">
+						<div class="terminal-window reveal is-visible">
+							<div class="terminal-titlebar">
+								<div class="terminal-dots"><span></span><span></span><span></span></div>
+								<span>cody@resume:~</span>
+							</div>
+							<div class="terminal-body">
+								<p class="mono" style="margin-top:0;">
+									<span class="terminal-prompt">cody@onl:~$</span> <span class="terminal-cmd">whoami</span>
+								</p>
+								<h1 style="font-size:2.4rem; margin:0 0 8px;">{d.name}</h1>
+								{roles.length > 0 && (
+									<p class="mono text-accent typewriter" style="font-size:1.3rem;" data-roles={roles.join("|")}></p>
+								)}
+								{d.intro && <p>{d.intro}</p>}
+								<div style="display:flex; gap:14px; flex-wrap:wrap; margin-top:1.4em;">
+									<a class="btn" href="/#about">Resume</a>
+									<a class="btn btn-ghost" href="/#contact">Contact</a>
+									<a class="btn btn-ghost" href="https://github.com/ImVylo" target="_blank" rel="noopener">GitHub</a>
+								</div>
+								{d.contact_line && (
+									<p class="mono text-dim" style="margin:1.4em 0 0; font-size:.85rem;">{d.contact_line}</p>
+								)}
+							</div>
+						</div>
+					</div>
+				</section>
+
+				{/* ---------- Stats ---------- */}
+				{stats.length > 0 && (
+					<section class="section-tight" style="padding-top:0;">
+						<div class="wrap">
+							<div class="stat-grid">
+								{stats.map((s) => (
+									<div class="stat-card reveal">
+										<div class="stat-key">{s.key}</div>
+										<div class="stat-val">{s.value}</div>
+									</div>
+								))}
+							</div>
+						</div>
+					</section>
+				)}
+
+				{/* ---------- About ---------- */}
+				{d.about && (
+					<section class="section-tight" id="about">
+						<div class="wrap">
+							<div class="section-kicker">cat about.md</div>
+							<h2>About</h2>
+							<div class="panel panel-accent reveal">
+								<p style="margin:0; white-space:pre-line;">{d.about}</p>
+							</div>
+						</div>
+					</section>
+				)}
+
+				{/* ---------- Experience ---------- */}
+				{experiences.length > 0 && (
+					<section class="section-tight" id="experience">
+						<div class="wrap">
+							<div class="section-kicker">ls -la experience/</div>
+							<h2>Experience</h2>
+							{experiences.map((e) => (
+								<div class="panel reveal" style="margin-bottom:1.2em;">
+									<h3 style="margin:0 0 .2em;">{e.role} — {e.company}</h3>
+									{e.period && (
+										<div class="mono text-dim" style="font-size:.85rem; margin-bottom:1em;">{e.period}</div>
+									)}
+									{e.description && <p style="margin:0; white-space:pre-line;">{e.description}</p>}
+								</div>
+							))}
+						</div>
+					</section>
+				)}
+
+				{/* ---------- Education + Certs ---------- */}
+				{(d.education || d.certs) && (
+					<section class="section-tight" id="education">
+						<div class="wrap">
+							<div class="section-kicker">cat education.json</div>
+							<h2>Education</h2>
+							{d.education && (
+								<div class="panel reveal" style="margin-bottom:1.2em;">
+									<p style="margin:0; white-space:pre-line;">{d.education}</p>
+								</div>
+							)}
+							{d.certs && (
+								<>
+									<div class="section-kicker">./verify --certs</div>
+									<h2>Certifications &amp; Skills Verification</h2>
+									<div class="panel reveal">
+										<p style="margin:0; white-space:pre-line;">{d.certs}</p>
+									</div>
+								</>
+							)}
+						</div>
+					</section>
+				)}
+
+				{/* ---------- Skills ---------- */}
+				{skillGroups.length > 0 && (
+					<section class="section-tight" id="skills">
+						<div class="wrap">
+							<div class="section-kicker">skills.sh --list</div>
+							<h2>Technical Skills</h2>
+							{skillGroups.map((g) => (
+								<div class="reveal" style="margin-bottom:1.6em;">
+									<h4 class="text-dim" style="font-size:.9rem; text-transform:uppercase; letter-spacing:.08em; margin:0 0 .8em;">{g.label}</h4>
+									<div class="badge-row">
+										{(g.skills || "")
+											.split(",")
+											.map((s) => s.trim())
+											.filter(Boolean)
+											.map((s) => <span class="badge is-accent">{s}</span>)}
+									</div>
+								</div>
+							))}
+						</div>
+					</section>
+				)}
+
+				{/* ---------- Projects ---------- */}
+				{projects.length > 0 && (
+					<section class="section-tight" id="projects">
+						<div class="wrap">
+							<div class="section-kicker">ls ~/projects</div>
+							<h2>Projects</h2>
+							<div class="projects-grid">
+								{projects.map((p) => (
+									<div class="panel reveal">
+										{p.kicker && <div class="section-kicker" style="margin-bottom:4px;">{p.kicker}</div>}
+										<h3 style="margin:0 0 .4em;">{p.title}</h3>
+										{p.description && <p style="margin:0; white-space:pre-line;">{p.description}</p>}
+										{(p.link_url || p.github_url) && (
+											<div class="project-links">
+												{p.link_url && (
+													<a class="badge is-accent" href={p.link_url} target="_blank" rel="noopener">{p.link_label || "View"}</a>
+												)}
+												{p.github_url && (
+													<a class="badge is-accent" href={p.github_url} target="_blank" rel="noopener">GitHub</a>
+												)}
+											</div>
+										)}
+									</div>
+								))}
+							</div>
+						</div>
+					</section>
+				)}
+
+				{/* ---------- Contact ---------- */}
+				<section class="section-tight" id="contact">
+					<div class="wrap">
+						<div class="terminal-window reveal" style="text-align:center; max-width:640px; margin:0 auto;">
+							<div class="terminal-titlebar">
+								<div class="terminal-dots"><span></span><span></span><span></span></div>
+								<span>./contact --open</span>
+							</div>
+							<div class="terminal-body">
+								<h2 style="margin-top:0;">Let&rsquo;s talk.</h2>
+								{d.contact_intro && <p style="white-space:pre-line;">{d.contact_intro}</p>}
+								<form class="contact-form" id="contact-form">
+									<input type="text" name="name" placeholder="your name" required />
+									<input type="email" name="email" placeholder="your email" required />
+									<textarea name="message" placeholder="your message" required></textarea>
+									<button class="btn" type="submit">./send --message</button>
+									<div class="form-status" id="form-status"></div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</section>
+			</>
+		)
+	}
+</Base>
+
+<script>
+	// Typewriter effect
+	const el = document.querySelector('[data-roles]');
+	if (el) {
+		const roles = el.dataset.roles.split("|").filter(Boolean);
+		let ri = 0, ci = 0, deleting = false;
+		const tick = () => {
+			const word = roles[ri];
+			if (!deleting) {
+				ci++;
+				el.textContent = word.slice(0, ci);
+				if (ci === word.length) { deleting = true; setTimeout(tick, 1400); return; }
+				setTimeout(tick, 90);
+			} else {
+				ci--;
+				el.textContent = word.slice(0, ci);
+				if (ci === 0) { deleting = false; ri = (ri + 1) % roles.length; setTimeout(tick, 300); return; }
+				setTimeout(tick, 45);
+			}
+		};
+		tick();
+	}
+
+	// Contact form
+	const form = document.getElementById("contact-form");
+	const status = document.getElementById("form-status");
+	if (form) {
+		form.addEventListener("submit", async (e) => {
+			e.preventDefault();
+			status.textContent = "sending...";
+			status.classList.remove("error");
+			const data = new FormData(form);
+			try {
+				const res = await fetch("/api/contact", {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({
+						name: data.get("name"),
+						email: data.get("email"),
+						message: data.get("message"),
+					}),
+				});
+				const out = await res.json();
+				if (res.ok) {
+					status.textContent = out.message || "message sent — thanks!";
+					form.reset();
+				} else {
+					status.textContent = out.error || "send failed — try email instead";
+					status.classList.add("error");
+				}
+			} catch (err) {
+				status.textContent = "send failed — try cdyboyd@gmail.com instead";
+				status.classList.add("error");
+			}
+		});
+	}
+</script>

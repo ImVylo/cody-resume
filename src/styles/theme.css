@@ -1,0 +1,410 @@
+/* ============================================================
+   Cyber Terminal theme — dark, monospace, terminal-window aesthetic
+   ============================================================ */
+:root {
+	--bg: #0a0e14;
+	--bg-panel: #0f141c;
+	--bg-panel-accent: rgba(58, 255, 154, 0.06);
+	--bg-hover: #141b26;
+	--border: #1f2937;
+	--border-accent: rgba(58, 255, 154, 0.35);
+	--text: #d7dee8;
+	--text-dim: #8b98a9;
+	--text-faint: #5c6874;
+	--accent: #3aff9a;
+	--accent-dim: #1f7a4d;
+	--accent-soft: #eafff2;
+	--cmd: #7dd3fc;
+	--danger: #ff5c5c;
+	--radius: 8px;
+	--font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+		"Liberation Mono", "JetBrains Mono", monospace;
+	--font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+		Helvetica, Arial, sans-serif;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+body {
+	margin: 0;
+	background: var(--bg);
+	color: var(--text);
+	font-family: var(--font-sans);
+	line-height: 1.6;
+	-webkit-font-smoothing: antialiased;
+	background-image: radial-gradient(
+			ellipse at 20% 0%,
+			rgba(58, 255, 154, 0.04),
+			transparent 50%
+		),
+		radial-gradient(ellipse at 80% 100%, rgba(125, 211, 252, 0.03), transparent 50%);
+}
+
+.mono {
+	font-family: var(--font-mono);
+}
+
+.wrap {
+	max-width: 960px;
+	margin: 0 auto;
+	padding: 0 24px;
+}
+
+a {
+	color: var(--accent);
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: underline;
+}
+
+/* ---------- Header / nav ---------- */
+.site-header {
+	border-bottom: 1px solid var(--border);
+	background: rgba(10, 14, 20, 0.85);
+	backdrop-filter: blur(8px);
+	position: sticky;
+	top: 0;
+	z-index: 50;
+}
+.site-header .wrap {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	padding-top: 14px;
+	padding-bottom: 14px;
+}
+.site-brand {
+	font-family: var(--font-mono);
+	font-weight: 700;
+	color: var(--accent);
+	font-size: 1.05rem;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+.site-brand .prompt {
+	color: var(--accent);
+}
+.site-brand .host {
+	color: var(--text-dim);
+}
+.site-nav {
+	display: flex;
+	gap: 4px;
+	flex-wrap: wrap;
+}
+.site-nav a {
+	font-family: var(--font-mono);
+	font-size: 0.85rem;
+	color: var(--text-dim);
+	padding: 6px 12px;
+	border-radius: 6px;
+	border: 1px solid transparent;
+	transition: all 0.15s ease;
+}
+.site-nav a:hover {
+	color: var(--accent);
+	border-color: var(--border);
+	text-decoration: none;
+	background: var(--bg-hover);
+}
+
+/* ---------- Sections ---------- */
+.section-tight {
+	padding: 40px 0;
+}
+.section-kicker {
+	font-family: var(--font-mono);
+	font-size: 0.85rem;
+	color: var(--accent-dim);
+	margin-bottom: 6px;
+}
+.section-kicker::before {
+	content: "$ ";
+	color: var(--accent);
+}
+h1,
+h2,
+h3 {
+	font-family: var(--font-mono);
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	color: var(--accent-soft);
+}
+h2 {
+	font-size: 1.6rem;
+	margin: 0 0 20px;
+}
+h2::after {
+	content: "";
+	display: inline-block;
+	width: 0.5em;
+	height: 1.2em;
+	background: var(--accent);
+	margin-left: 8px;
+	vertical-align: -0.2em;
+	animation: blink 1s steps(1) infinite;
+}
+@keyframes blink {
+	50% {
+		opacity: 0;
+	}
+}
+
+/* ---------- Terminal window ---------- */
+.terminal-window {
+	background: var(--bg-panel);
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	overflow: hidden;
+	box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+}
+.terminal-titlebar {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 10px 14px;
+	background: var(--bg-hover);
+	border-bottom: 1px solid var(--border);
+	font-family: var(--font-mono);
+	font-size: 0.8rem;
+	color: var(--text-dim);
+}
+.terminal-dots {
+	display: flex;
+	gap: 6px;
+}
+.terminal-dots span {
+	width: 11px;
+	height: 11px;
+	border-radius: 50%;
+}
+.terminal-dots span:nth-child(1) {
+	background: #ff5f56;
+}
+.terminal-dots span:nth-child(2) {
+	background: #ffbd2e;
+}
+.terminal-dots span:nth-child(3) {
+	background: #27c93f;
+}
+.terminal-body {
+	padding: 26px 28px;
+}
+.terminal-prompt {
+	color: var(--accent);
+	font-family: var(--font-mono);
+}
+.terminal-cmd {
+	color: var(--cmd);
+	font-family: var(--font-mono);
+	font-weight: 600;
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+	display: inline-block;
+	font-family: var(--font-mono);
+	font-size: 0.9rem;
+	font-weight: 600;
+	padding: 10px 18px;
+	border-radius: 6px;
+	border: 1px solid var(--border-accent);
+	background: var(--accent);
+	color: #04150b;
+	cursor: pointer;
+	transition: all 0.15s ease;
+	text-decoration: none;
+}
+.btn:hover {
+	background: var(--accent-soft);
+	text-decoration: none;
+}
+.btn-ghost {
+	background: transparent;
+	color: var(--text);
+	border-color: var(--border);
+}
+.btn-ghost:hover {
+	border-color: var(--accent);
+	color: var(--accent);
+	background: var(--bg-hover);
+}
+
+/* ---------- Panels / cards ---------- */
+.panel {
+	background: var(--bg-panel);
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	padding: 20px 22px;
+}
+.panel-accent {
+	border-left: 3px solid var(--accent);
+	background: var(--bg-panel-accent);
+}
+.stat-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	gap: 14px;
+}
+.stat-card {
+	background: var(--bg-panel);
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	padding: 16px 18px;
+	transition: border-color 0.15s ease, transform 0.15s ease;
+}
+.stat-card:hover {
+	border-color: var(--border-accent);
+	transform: translateY(-2px);
+}
+.stat-key {
+	font-family: var(--font-mono);
+	font-size: 0.75rem;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	color: var(--accent-dim);
+	margin-bottom: 6px;
+}
+.stat-val {
+	font-family: var(--font-mono);
+	color: var(--accent-soft);
+	font-weight: 600;
+}
+
+/* ---------- Badges ---------- */
+.badge-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+.badge {
+	font-family: var(--font-mono);
+	font-size: 0.8rem;
+	padding: 6px 12px;
+	border-radius: 999px;
+	border: 1px solid var(--border);
+	color: var(--text-dim);
+	display: inline-block;
+}
+.badge.is-accent {
+	border-color: var(--border-accent);
+	color: var(--accent);
+	background: var(--bg-panel-accent);
+}
+
+/* ---------- Projects grid ---------- */
+.projects-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 20px;
+}
+@media (max-width: 720px) {
+	.projects-grid {
+		grid-template-columns: 1fr;
+	}
+}
+.project-links {
+	display: flex;
+	gap: 14px;
+	margin-top: 14px;
+	flex-wrap: wrap;
+}
+
+/* ---------- Text helpers ---------- */
+.text-accent {
+	color: var(--accent);
+}
+.text-dim {
+	color: var(--text-dim);
+}
+.mono {
+	font-family: var(--font-mono);
+}
+
+/* ---------- Typewriter caret ---------- */
+.typewriter::after {
+	content: "█";
+	color: var(--accent);
+	animation: blink 1s steps(1) infinite;
+	margin-left: 2px;
+}
+
+/* ---------- Contact form ---------- */
+.contact-form {
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+	text-align: left;
+	margin-top: 18px;
+}
+.contact-form input,
+.contact-form textarea {
+	background: var(--bg);
+	border: 1px solid var(--border);
+	border-radius: 6px;
+	color: var(--text);
+	font-family: var(--font-mono);
+	font-size: 0.9rem;
+	padding: 10px 12px;
+	outline: none;
+	transition: border-color 0.15s ease;
+}
+.contact-form input:focus,
+.contact-form textarea:focus {
+	border-color: var(--border-accent);
+}
+.contact-form textarea {
+	resize: vertical;
+	min-height: 120px;
+}
+.form-status {
+	font-family: var(--font-mono);
+	font-size: 0.85rem;
+	color: var(--accent);
+	min-height: 1.2em;
+}
+.form-status.error {
+	color: var(--danger);
+}
+
+/* ---------- Reveal animation ---------- */
+.reveal {
+	opacity: 0;
+	transform: translateY(12px);
+	transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.reveal.is-visible {
+	opacity: 1;
+	transform: none;
+}
+
+/* ---------- Footer ---------- */
+.site-footer {
+	border-top: 1px solid var(--border);
+	padding: 28px 0;
+	margin-top: 40px;
+	font-family: var(--font-mono);
+	font-size: 0.8rem;
+	color: var(--text-faint);
+	text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	* {
+		animation: none !important;
+		transition: none !important;
+	}
+	.reveal {
+		opacity: 1;
+		transform: none;
+	}
+}

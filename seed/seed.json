@@ -1,0 +1,171 @@
+{
+	"$schema": "https://emdashcms.com/seed.schema.json",
+	"version": "1",
+	"meta": {
+		"name": "Cody Boyd Resume",
+		"description": "Terminal-themed resume site for Cody Boyd",
+		"author": "Cody Boyd"
+	},
+	"settings": {
+		"title": "Cody Boyd",
+		"tagline": "Homelab-built, self-hosted, and ready to bring that hands-on discipline to a security team."
+	},
+	"collections": [
+		{
+			"slug": "resume",
+			"label": "Resume",
+			"labelSingular": "Resume",
+			"supports": ["revisions", "preview", "seo"],
+			"fields": [
+				{ "slug": "name", "label": "Name", "type": "string", "required": true },
+				{ "slug": "typewriter", "label": "Typewriter roles (pipe-separated)", "type": "string" },
+				{ "slug": "intro", "label": "Intro line", "type": "text" },
+				{ "slug": "contact_line", "label": "Contact line", "type": "string" },
+				{
+					"slug": "stats",
+					"label": "Stats",
+					"type": "repeater",
+					"validation": {
+						"subFields": [
+							{ "slug": "key", "label": "Key", "type": "string", "required": true },
+							{ "slug": "value", "label": "Value", "type": "string", "required": true }
+						]
+					}
+				},
+				{ "slug": "about", "label": "About", "type": "text" },
+				{
+					"slug": "experiences",
+					"label": "Experience",
+					"type": "repeater",
+					"validation": {
+						"subFields": [
+							{ "slug": "role", "label": "Role", "type": "string", "required": true },
+							{ "slug": "company", "label": "Company", "type": "string", "required": true },
+							{ "slug": "period", "label": "Period", "type": "string" },
+							{ "slug": "description", "label": "Description", "type": "text" }
+						]
+					}
+				},
+				{ "slug": "education", "label": "Education", "type": "text" },
+				{ "slug": "certs", "label": "Certifications & Skills Verification", "type": "text" },
+				{
+					"slug": "skill_groups",
+					"label": "Skill groups",
+					"type": "repeater",
+					"validation": {
+						"subFields": [
+							{ "slug": "label", "label": "Group label", "type": "string", "required": true },
+							{ "slug": "skills", "label": "Skills (comma-separated)", "type": "text" }
+						]
+					}
+				},
+				{
+					"slug": "projects",
+					"label": "Projects",
+					"type": "repeater",
+					"validation": {
+						"subFields": [
+							{ "slug": "title", "label": "Title", "type": "string", "required": true },
+							{ "slug": "kicker", "label": "Kicker", "type": "string" },
+							{ "slug": "description", "label": "Description", "type": "text" },
+							{ "slug": "link_url", "label": "Link URL", "type": "url" },
+							{ "slug": "link_label", "label": "Link label", "type": "string" },
+							{ "slug": "github_url", "label": "GitHub URL", "type": "url" }
+						]
+					}
+				},
+				{ "slug": "contact_intro", "label": "Contact intro", "type": "text" }
+			]
+		}
+	],
+	"menus": [
+		{
+			"name": "primary",
+			"label": "Primary Navigation",
+			"items": [
+				{ "type": "custom", "label": "About", "url": "/#about" },
+				{ "type": "custom", "label": "Experience", "url": "/#experience" },
+				{ "type": "custom", "label": "Skills", "url": "/#skills" },
+				{ "type": "custom", "label": "Projects", "url": "/#projects" },
+				{ "type": "custom", "label": "Contact", "url": "/#contact" }
+			]
+		}
+	],
+	"content": {
+		"resume": [
+			{
+				"id": "cody-boyd",
+				"slug": "cody-boyd",
+				"status": "published",
+				"data": {
+					"name": "Cody Boyd",
+					"typewriter": "cybersecurity|homelab|self-hosting|IT support",
+					"intro": "Homelab-built, self-hosted, and ready to bring that hands-on discipline to a security team.",
+					"contact_line": "cdyboyd@gmail.com · github.com/ImVylo · boyd.fyi",
+					"stats": [
+						{ "key": "education", "value": "B.S. Cybersecurity — SNHU" },
+						{ "key": "experience", "value": "10+ yrs customer-facing ops" },
+						{ "key": "status", "value": "Open to entry-level roles" },
+						{ "key": "infra", "value": "Proxmox · Docker · Coolify" }
+					],
+					"about": "IT professional transitioning into cybersecurity, backed by a B.S. in Cybersecurity from Southern New Hampshire University, an NSA-designated Center of Academic Excellence in Cyber Defense. Ten-plus years of customer-facing operations experience layered on top of hands-on networking, Active Directory, and endpoint management work from an IT internship, plus a self-managed homelab spanning Proxmox, Docker, and enterprise networking gear.",
+					"experiences": [
+						{
+							"role": "IT Support Intern",
+							"company": "Coborn's",
+							"period": "Apr 2026 – Aug 2026",
+							"description": "Contributed to the ECRS Catapult POS modernization rollout across 100+ Coborn's stores from the Retail Support Center in St. Cloud. Imaged and configured 4–20+ workstations per site via ManageEngine Endpoint Central, then coordinated palletizing and overnight shipment to stores. Wrote self-elevating PowerShell/batch scripts to automate Ingenico payment terminal COM port configuration via the registry, deployed from a network share. Rewired self-checkout lane light systems and configured LED Wiz controllers. Decommissioned legacy hardware with secure drive extraction/shredding and PIN pad destruction, and shadowed an onsite PCI compliance assessment. Used SolarWinds for monitoring and ticketing while working in Agile sprints."
+						},
+						{
+							"role": "Sr. Specialist, Transportation Command Center",
+							"company": "Target",
+							"period": "Jul 2021 – Oct 2025",
+							"description": "Kept a 24/7 logistics operation running: managed freight exceptions, escalations, and delivery defects in Salesforce, and maintained the team's knowledge base."
+						},
+						{
+							"role": "Customer Service",
+							"company": "Best Buy",
+							"period": "2015 – 2021",
+							"description": "Handled 20–40 customer interactions per day covering orders, returns, delivery, billing, and account inquiries, resolving on first contact where possible. Answered technical questions without escalation — sign-in issues, password resets, software activation, basic troubleshooting — routing hands-on repairs to Geek Squad."
+						}
+					],
+					"education": "B.S. in Cybersecurity, concentration in Networking & Network Security — Southern New Hampshire University (Online), graduated January 2026. SNHU is an NSA-designated Center of Academic Excellence in Cyber Defense (CAE-CD). Coursework also includes Google's Cybersecurity Certificate: Foundations of Cybersecurity, Play It Safe: Manage Security Risks, Assets, Threats, and Vulnerabilities, and Tools of the Trade: Linux and SQL.",
+					"certs": "CompTIA Tech+ (currently preparing for Security+). TestGorilla verified skills assessments: Active Directory, 90th percentile, and Cloud System Administration, 70th percentile (both valid through November 2027).",
+					"skill_groups": [
+						{ "label": "Networking & Security", "skills": "Cat5e / Cat6 Termination, Network Security Fundamentals, Active Directory, VMware, PCI Compliance Exposure" },
+						{ "label": "Systems & Endpoint Management", "skills": "ManageEngine Endpoint Central, Windows / AD Administration, SolarWinds, Fleet Imaging & Deployment" },
+						{ "label": "Scripting & Automation", "skills": "PowerShell, Batch Scripting" },
+						{ "label": "Self-Hosted Infrastructure", "skills": "Docker, Proxmox VE, Coolify, Traefik, Tailscale, Unraid, AdGuard Home, Git / GitHub" }
+					],
+					"projects": [
+						{
+							"title": "Trapper Phil's",
+							"kicker": "client site",
+							"description": "Built and launched a site for an elderly veteran-owned wildlife control business to help him bring in more customers online. Also set up and optimized his Google Business Profile and implemented on-page SEO, improving local search visibility and rankings."
+						},
+						{
+							"title": "Homelab",
+							"kicker": "infra",
+							"description": "A self-managed infrastructure lab spanning a clustered Proxmox VE environment, an Unraid media/app server, and a VPS. Runs 20+ self-hosted services behind Docker and Coolify, with Traefik reverse-proxying and automatic Let's Encrypt certificates, a Tailscale mesh VPN, and AdGuard Home for network-wide DNS filtering. This site itself runs on that same infrastructure."
+						},
+						{
+							"title": "StockWatch",
+							"kicker": "SaaS · web app",
+							"description": "A 3-tier SaaS restock & price-drop tracker — paste any product URL and it monitors the page (AI-assisted stock detection, or a manual CSS selector) and alerts you the instant something comes back in stock or hits your target price. Handles JS-heavy storefronts via headless browser rendering, not just simple HTTP scraping. Checks as often as every 5 minutes on paid plans, alerts via email, Discord, Telegram, push, or webhook. Built with a browser extension for one-click tracking, bcrypt + optional 2FA auth, SSRF-protected scraping, and seat-based Team billing for shared lists. Deployed via Coolify.",
+							"link_url": "https://stockwatch.dev.boyd.fyi",
+							"link_label": "View Live App",
+							"github_url": "https://github.com/ImVylo"
+						},
+						{
+							"title": "PartsDesk",
+							"kicker": "open source",
+							"description": "A lightweight, self-hosted alternative for technical distributors and manufacturers to manage product catalogs — catalog search, an AI-powered assistant for product questions, and an internal knowledge base. Built with zero external dependencies: a Python 3 standard-library backend, a vanilla JS frontend, and SQLite, deployable via Docker.",
+							"github_url": "https://github.com/ImVylo/partsdesk"
+						}
+					],
+					"contact_intro": "Open to entry-level cybersecurity and IT support roles. Reach me at cdyboyd@gmail.com, or find more of my work at github.com/ImVylo and boyd.fyi."
+				}
+			}
+		]
+	}
+}
