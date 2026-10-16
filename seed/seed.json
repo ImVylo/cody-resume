@@ -15,7 +15,7 @@
 			"slug": "resume",
 			"label": "Resume",
 			"labelSingular": "Resume",
-			"supports": ["revisions", "preview", "seo"],
+			"supports": ["drafts", "revisions", "preview", "search", "seo"],
 			"fields": [
 				{ "slug": "name", "label": "Name", "type": "string", "required": true },
 				{ "slug": "typewriter", "label": "Typewriter roles (pipe-separated)", "type": "string" },
